@@ -1,0 +1,7 @@
+.app__header {
+  @apply p-20 m-20 text-white;
+
+  &--test {
+    @apply bg-blue-500;
+  }
+}
