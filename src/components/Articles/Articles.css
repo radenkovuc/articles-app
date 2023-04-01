@@ -1,4 +1,4 @@
-.articles-app__header {
+.articles-app__articles {
   @apply p-20 m-20 text-white;
 
   &--test {

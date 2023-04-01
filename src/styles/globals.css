@@ -2,4 +2,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@import '../components/Article/Article.css';
+@import '../components/Articles/Articles.css';
 @import '../components/Header/Header.css';
+@import '../components/Search/Search.css';
