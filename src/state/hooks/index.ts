@@ -1,1 +1,1 @@
-export { useArticles as default } from "./ArticlesHook";
+export { useArticles as default } from './ArticlesHook';

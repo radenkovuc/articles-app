@@ -1,1 +1,1 @@
-export { StateProvider, useStateContext } from "./State.context";
+export { StateProvider, useStateContext } from './State.context';

@@ -1,7 +1,19 @@
 .articles-app__header {
-  @apply p-20 m-20 text-white;
+    @apply flex items-center justify-center py-1 px-4;
 
-  &--test {
-    @apply bg-blue-500;
-  }
+    &__button {
+        @apply p-2 border border-gray-300 rounded-full;
+    }
+
+    &__categories {
+        @apply flex items-center justify-center;
+    }
+
+    &__category {
+        @apply px-2 cursor-pointer;
+
+        &--active {
+            @apply border border-blue-900 rounded-full;
+        }
+    }
 }

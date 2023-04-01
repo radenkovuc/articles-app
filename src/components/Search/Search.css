@@ -1,7 +1,19 @@
 .articles-app__search {
-  @apply p-20 m-20 text-white;
+    @apply flex flex-col max-w-5xl mx-auto;
 
-  &--test {
-    @apply bg-blue-500;
-  }
+    &__content {
+        @apply flex p-2;
+    }
+
+    &__input {
+        @apply flex-auto p-2 border border-gray-300;
+    }
+
+    &__button {
+        @apply bg-blue-400 text-white px-4;
+    }
+
+    &__footer {
+        @apply flex justify-end px-4 pb-2;
+    }
 }

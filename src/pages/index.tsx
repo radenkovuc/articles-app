@@ -1,60 +1,36 @@
-import { useEffect } from "react";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps } from 'next';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import useArticles from "@/state/hooks";
-import { useStateContext } from "@/state";
+import { StateProvider } from '@/state';
 
-import Header from "@/components/Header";
-import Search from "@/components/Search";
-import Articles from "@/components/Articles";
+import ArticlesPage from '@/components/ArticlesPage';
 
 interface Props {
-  readonly search: string;
-  readonly category: string | null;
+    readonly search: string;
+    readonly category: string | null;
 }
 
 const Home = ({ search, category }: Props): JSX.Element => {
-  const { data, isLoading, isError } = useArticles();
-  const { setArticles, setSearch, setCategory } = useStateContext();
-  console.log(search, category);
+    const queryClient = new QueryClient();
 
-  useEffect(() => {
-    setSearch(search);
-    setCategory(category);
-  }, []);
-
-  useEffect(() => {
-    setArticles(data);
-  }, [data]);
-
-  if (isLoading) {
-    //Loading page
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    //Error page
-    return <div>Error...</div>;
-  }
-
-  return (
-    <div>
-      <Header />
-      <Search />
-      <Articles />
-    </div>
-  );
+    return (
+        <QueryClientProvider client={queryClient}>
+            <StateProvider>
+                <ArticlesPage search={search} category={category} />
+            </StateProvider>
+        </QueryClientProvider>
+    );
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { query, filter } = context.query;
+    const { query, filter } = context.query;
 
-  return {
-    props: {
-      search: query || "",
-      category: filter || null,
-    },
-  };
+    return {
+        props: {
+            search: query || '',
+            category: filter || null,
+        },
+    };
 };
 
 export default Home;

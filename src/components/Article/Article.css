@@ -1,3 +1,31 @@
 .articles-app__article {
-  @apply p-2 m-2 text-red-500;
+    @apply relative flex items-center bg-black p-4 m-2 text-white;
+
+    &__image {
+        @apply w-1/2 h-fit;
+    }
+
+    &__content {
+        @apply flex flex-col justify-center pl-4;
+    }
+
+    &__title {
+        @apply text-lg font-bold;
+    }
+
+    &__description {
+        @apply pt-4 text-sm;
+    }
+
+    &__delete {
+        @apply absolute top-0 right-0 w-16 h-8 mt-1 mr-1;
+
+        > div {
+            @apply hidden justify-center bg-white text-blue-500 p-1 border border-blue-500 rounded-2xl cursor-pointer;
+        }
+
+        &:hover > div {
+            @apply flex;
+        }
+    }
 }
