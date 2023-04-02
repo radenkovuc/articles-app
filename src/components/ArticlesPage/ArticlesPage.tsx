@@ -1,21 +1,23 @@
 import { useEffect } from 'react';
 
-import useArticles from '@/state/hooks';
 import { useStateContext } from '@/state';
+import useArticles from '@/state/hooks';
+import { Article } from '@/state/hooks/ArticlesHook';
 
 import Header from '@/components/Header';
 import Search from '@/components/Search';
 import Articles from '@/components/Articles';
+import { URLUpdater } from './URLUpdater';
 
 interface Props {
     readonly search: string;
     readonly category: string | null;
+    readonly articles: Article[];
 }
 
-export const ArticlesPage = ({ search, category }: Props): JSX.Element => {
-    const { data, isLoading, isError } = useArticles();
+export const ArticlesPage = ({ search, category, articles }: Props): JSX.Element => {
+    const { data, isLoading, isError, isFetched } = useArticles(articles);
     const { setArticles, setSearch, setCategory } = useStateContext();
-    console.log(search, category);
 
     useEffect(() => {
         setSearch(search);
@@ -23,14 +25,14 @@ export const ArticlesPage = ({ search, category }: Props): JSX.Element => {
     }, []);
 
     useEffect(() => {
-        if (data) {
+        if (isFetched && data) {
             setArticles(data);
         }
-    }, [data]);
+    }, [isFetched]);
 
-    if (isLoading) {
+    if (!isFetched) {
         //Loading page
-        return <div>Loading...</div>;
+        return <div>Fetching...</div>;
     }
 
     if (isError) {
@@ -39,10 +41,11 @@ export const ArticlesPage = ({ search, category }: Props): JSX.Element => {
     }
 
     return (
-        <div>
+        <>
+            <URLUpdater />
             <Header />
             <Search />
             <Articles />
-        </div>
+        </>
     );
 };

@@ -12,8 +12,8 @@ interface ResponseArticle {
 }
 
 export interface Article {
-    readonly date: Date;
-    readonly excerpt: string;
+    readonly date: string;
+    readonly description: string;
     readonly category: string;
     readonly image: number;
     readonly thumbnail: string;
@@ -26,8 +26,8 @@ export enum Category {
 }
 
 const mapArticle = (article: ResponseArticle): Article => ({
-    date: new Date(),
-    excerpt: article.excerpt,
+    date: article.date,
+    description: article.excerpt,
     category: article.post_category_id,
     image: article.post_image,
     thumbnail: article.post_thumbnail,
@@ -35,11 +35,14 @@ const mapArticle = (article: ResponseArticle): Article => ({
     title: article.title,
 });
 
-export const useArticles = (): UseQueryResult<Article[] | undefined> =>
+export const getArticles = async (): Promise<Article[]> => {
+    const { data } = await axios.get<ResponseArticle[]>('https://react-challenge.human.hr/last-100-news.json');
+    return data.map((article) => mapArticle(article)) || [];
+};
+
+export const useArticles = (articles?: Article[]): UseQueryResult<Article[]> =>
     useQuery({
         queryKey: [],
-        queryFn: async (): Promise<Article[]> => {
-            const { data } = await axios.get<ResponseArticle[]>('https://react-challenge.human.hr/last-100-news.json');
-            return data.map((article) => mapArticle(article));
-        },
+        queryFn: getArticles,
+        initialData: articles,
     });

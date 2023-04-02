@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
 
 import { useStateContext } from '@/state';
 
@@ -8,22 +8,28 @@ export const Search = (): JSX.Element => {
     const { filteredArticles, search, setSearch } = useStateContext();
     const [searchValue, setSearchValue] = useState<string>(search);
 
-    const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchValue(e.target.value);
+    const onSearchChange = (e: ChangeEvent<HTMLInputElement>): void => setSearchValue(e.target.value);
+
+    const onSearchInput = (e: KeyboardEvent): void => {
+        if (e.key === 'Enter') {
+            onClickSearchButton();
+        }
     };
 
-    const onClickSearchButton = () => {
-        if (searchValue.length < 3) {
-            setSearch('');
-        } else {
-            setSearch(searchValue);
-        }
+    const onClickSearchButton = (): void => {
+        const newSearch = searchValue.length < 3 ? '' : searchValue;
+        setSearch(newSearch);
     };
 
     return (
         <div className={BASE_CLASS}>
             <div className={`${BASE_CLASS}__content`}>
-                <input className={`${BASE_CLASS}__input`} value={searchValue} onChange={onSearchChange} />
+                <input
+                    className={`${BASE_CLASS}__input`}
+                    value={searchValue}
+                    onChange={onSearchChange}
+                    onKeyDown={onSearchInput}
+                />
                 <button className={`${BASE_CLASS}__button`} onClick={onClickSearchButton}>
                     Search
                 </button>

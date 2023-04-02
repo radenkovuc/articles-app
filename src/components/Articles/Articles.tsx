@@ -12,7 +12,7 @@ export const Articles = (): JSX.Element => {
     }
 
     const onDeleteArticle = (slug: string) => {
-        setArticles((articles) => articles?.filter((article) => article.slug !== slug));
+        setArticles((articles) => articles.filter((article) => article.slug !== slug));
     };
 
     return (

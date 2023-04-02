@@ -1,5 +1,5 @@
-import useArticles from '@/state/hooks';
 import { useStateContext } from '@/state';
+import useArticles from '@/state/hooks';
 
 import { Categories } from '@/components/Header/Categories';
 
@@ -10,7 +10,7 @@ export const Header = (): JSX.Element => {
     const { refetch } = useArticles();
     const { articles, setArticles, setCategory } = useStateContext();
 
-    const updateData = async () => {
+    const fetchData = async () => {
         const { data } = await refetch();
         if (data) {
             setArticles(data);
@@ -28,7 +28,7 @@ export const Header = (): JSX.Element => {
                 Show all
             </button>
             {articles.length < MAX_NUMBER_OF_ARTICLES && (
-                <button className={`${BASE_CLASS}__button`} onClick={updateData}>
+                <button className={`${BASE_CLASS}__button`} onClick={fetchData}>
                     Refetch
                 </button>
             )}

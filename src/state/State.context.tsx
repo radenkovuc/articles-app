@@ -28,11 +28,11 @@ export const StateProvider = ({ children }: Props): JSX.Element => {
         if (articles) {
             const filtered = articles.filter((article) => {
                 const title = article.title.toLowerCase();
-                const excerpt = article.excerpt.toLowerCase();
+                const description = article.description.toLowerCase();
                 const searchLower = search.toLowerCase();
 
                 return (
-                    (title.includes(searchLower) || excerpt.includes(searchLower)) &&
+                    (title.includes(searchLower) || description.includes(searchLower)) &&
                     (category ? article.category === category : true)
                 );
             });

@@ -10,8 +10,12 @@ interface Props {
     readonly category: Category;
 }
 
-export const CategoryItem = ({ category: { id, name } }: Props): JSX.Element => {
-    const { category, setCategory } = useStateContext();
+export const CategoryItem = ({ category: { id, name } }: Props): JSX.Element | null => {
+    const { category, setCategory, articles } = useStateContext();
+
+    if (!articles.some((article) => article.category === id)) {
+        return null;
+    }
 
     const onClick = () => {
         setCategory(id);

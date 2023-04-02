@@ -1,5 +1,3 @@
-import useArticles from '@/state/hooks';
-import { useStateContext } from '@/state';
 import { CategoryItem } from '@/components/Header/CategoryItem';
 
 const BASE_CLASS = 'articles-app__header__categories';

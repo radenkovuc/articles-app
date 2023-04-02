@@ -13,6 +13,10 @@
         @apply text-lg font-bold;
     }
 
+    &__date {
+        @apply pt-2 text-xs text-gray-500;
+    }
+
     &__description {
         @apply pt-4 text-sm;
     }

@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 import { Article as DomainArticle } from '@/state/hooks/ArticlesHook';
 
 interface Props {
@@ -15,7 +13,8 @@ export const Article = ({ article, onDeleteArticle }: Props): JSX.Element => (
         <img className={`${BASE_CLASS}__image`} src={`${IMAGE_BASE_URL}${article.thumbnail}`} alt={article.slug} />
         <div className={`${BASE_CLASS}__content`}>
             <div className={`${BASE_CLASS}__title`}>{article.title}</div>
-            <div className={`${BASE_CLASS}__description`} dangerouslySetInnerHTML={{ __html: article.excerpt }} />
+            <div className={`${BASE_CLASS}__date`}>{article.date}</div>
+            <div className={`${BASE_CLASS}__description`} dangerouslySetInnerHTML={{ __html: article.description }} />
         </div>
         <div className={`${BASE_CLASS}__delete`}>
             <div onClick={() => onDeleteArticle(article.slug)}>Delete</div>
