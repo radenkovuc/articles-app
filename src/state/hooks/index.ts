@@ -1,1 +1,2 @@
-export { useArticles as default } from './ArticlesHook';
+export { useArticles, getArticles } from './ArticlesHook';
+export { useFilteredData } from './FilteredDataHook';

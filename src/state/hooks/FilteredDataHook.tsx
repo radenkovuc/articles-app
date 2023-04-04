@@ -1,0 +1,52 @@
+import { useEffect, useState } from 'react';
+
+import { useStateContext } from '@/state';
+
+import { Article, Category } from '@/domain';
+
+const CATEGORIES: Category[] = [
+    { id: '1', name: 'X Universe' },
+    { id: '2', name: 'Elite: Dangerous' },
+    { id: '3', name: 'Starpoint Gemini' },
+    { id: '4', name: 'EVE Online' },
+];
+
+interface ReturnProps {
+    readonly filteredArticles: Article[];
+    readonly filteredCategories: Category[];
+}
+
+const filterArticlesBySearch = (articles: Article[], search: string): Article[] =>
+    articles.filter((article) => {
+        const title = article.title.toLowerCase();
+        const description = article.description.toLowerCase();
+        const searchLower = search.toLowerCase();
+
+        return title.includes(searchLower) || description.includes(searchLower);
+    });
+
+const filterArticlesByCategory = (articles: Article[], category: string): Article[] =>
+    articles.filter((article) => article.category === category);
+
+const filterAvailableCategories = (articles: Article[]): Category[] =>
+    CATEGORIES.filter(({ id }) => articles.some((article) => article.category === id));
+
+export const useFilteredData = (): ReturnProps => {
+    const [filteredArticles, setFilteredArticles] = useState<Article[]>([]);
+    const [filteredCategories, setFilteredCategories] = useState<Category[]>([]);
+    const { articles, search, category } = useStateContext();
+
+    useEffect(() => {
+        let filteredArticles = filterArticlesBySearch(articles, search);
+
+        setFilteredCategories(filterAvailableCategories(filteredArticles));
+
+        if (category) {
+            filteredArticles = filterArticlesByCategory(filteredArticles, category);
+        }
+
+        setFilteredArticles(filteredArticles);
+    }, [articles, search, category]);
+
+    return { filteredArticles, filteredCategories };
+};

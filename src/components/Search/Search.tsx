@@ -1,11 +1,13 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 
 import { useStateContext } from '@/state';
+import { useFilteredData } from '@/state/hooks';
 
 const BASE_CLASS = 'articles-app__search';
 
 export const Search = (): JSX.Element => {
-    const { filteredArticles, search, setSearch } = useStateContext();
+    const { search, setSearch } = useStateContext();
+    const { filteredArticles } = useFilteredData();
     const [searchValue, setSearchValue] = useState<string>(search);
 
     const onSearchChange = (e: ChangeEvent<HTMLInputElement>): void => setSearchValue(e.target.value);

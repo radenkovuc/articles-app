@@ -1,12 +1,12 @@
 .articles-app__article {
-    @apply relative flex items-center bg-black p-4 m-2 text-white;
+    @apply relative flex items-center bg-black w-full p-4 m-2 text-white;
 
     &__image {
-        @apply w-1/2 h-fit;
+        @apply w-1/2 flex-1 h-fit aspect-16/10;
     }
 
     &__content {
-        @apply flex flex-col justify-center pl-4;
+        @apply flex flex-col justify-center flex-1 pl-4;
     }
 
     &__title {
@@ -19,6 +19,10 @@
 
     &__description {
         @apply pt-4 text-sm;
+    }
+
+    &__article-link {
+        @apply flex justify-end p-2 text-blue-500;
     }
 
     &__delete {

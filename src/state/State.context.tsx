@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { Article } from '@/state/hooks/ArticlesHook';
+import { Article } from '@/domain';
 
 type StateServices = {
     readonly articles: Article[];
@@ -9,37 +9,21 @@ type StateServices = {
     readonly setSearch: React.Dispatch<React.SetStateAction<string>>;
     readonly category: string | null;
     readonly setCategory: React.Dispatch<React.SetStateAction<string | null>>;
-    readonly filteredArticles: Article[];
 };
 
 interface Props {
     readonly children: JSX.Element;
+    readonly initialArticles: Article[];
+    readonly initialSearch: string;
+    readonly initialCategory: string | null;
 }
 
 const StateContext = React.createContext<StateServices | undefined>(undefined);
 
-export const StateProvider = ({ children }: Props): JSX.Element => {
-    const [articles, setArticles] = React.useState<Article[]>([]);
-    const [filteredArticles, setFilteredArticles] = React.useState<Article[]>([]);
-    const [search, setSearch] = React.useState<string>('');
-    const [category, setCategory] = React.useState<string | null>(null);
-
-    useEffect(() => {
-        if (articles) {
-            const filtered = articles.filter((article) => {
-                const title = article.title.toLowerCase();
-                const description = article.description.toLowerCase();
-                const searchLower = search.toLowerCase();
-
-                return (
-                    (title.includes(searchLower) || description.includes(searchLower)) &&
-                    (category ? article.category === category : true)
-                );
-            });
-
-            setFilteredArticles(filtered);
-        }
-    }, [articles, search, category]);
+export const StateProvider = ({ children, initialArticles, initialSearch, initialCategory }: Props): JSX.Element => {
+    const [articles, setArticles] = React.useState<Article[]>(initialArticles);
+    const [search, setSearch] = React.useState<string>(initialSearch);
+    const [category, setCategory] = React.useState<string | null>(initialCategory);
 
     return (
         <StateContext.Provider
@@ -50,7 +34,6 @@ export const StateProvider = ({ children }: Props): JSX.Element => {
                 setSearch,
                 category,
                 setCategory,
-                filteredArticles,
             }}
         >
             {children}

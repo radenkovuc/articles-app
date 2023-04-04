@@ -1,5 +1,5 @@
 import { useStateContext } from '@/state';
-import useArticles from '@/state/hooks';
+import { useArticles } from '@/state/hooks';
 
 import { Categories } from '@/components/Header/Categories';
 
@@ -17,9 +17,9 @@ export const Header = (): JSX.Element => {
         }
     };
 
-    const resetFilters = () => {
-        setCategory(null);
-    };
+    const resetFilters = () => setCategory(null);
+
+    const showRefetchButton = articles.length < MAX_NUMBER_OF_ARTICLES;
 
     return (
         <div className={BASE_CLASS}>
@@ -27,7 +27,7 @@ export const Header = (): JSX.Element => {
             <button className={`${BASE_CLASS}__button`} onClick={resetFilters}>
                 Show all
             </button>
-            {articles.length < MAX_NUMBER_OF_ARTICLES && (
+            {showRefetchButton && (
                 <button className={`${BASE_CLASS}__button`} onClick={fetchData}>
                     Refetch
                 </button>

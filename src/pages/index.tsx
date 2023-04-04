@@ -1,9 +1,14 @@
 import { GetServerSideProps } from 'next';
 
 import { StateProvider } from '@/state';
-import { Article, getArticles } from '@/state/hooks/ArticlesHook';
+import { getArticles } from '@/state/hooks/ArticlesHook';
 
-import ArticlesPage from '@/components/ArticlesPage';
+import { Article } from '@/domain';
+
+import URLUpdater from '@/components/URLUpdater';
+import Header from '@/components/Header';
+import Search from '@/components/Search';
+import Articles from '@/components/Articles';
 
 interface Props {
     readonly search: string;
@@ -13,8 +18,13 @@ interface Props {
 
 const Home = ({ search, category, articles }: Props): JSX.Element => {
     return (
-        <StateProvider>
-            <ArticlesPage search={search} category={category} articles={articles} />
+        <StateProvider initialCategory={category} initialSearch={search} initialArticles={articles}>
+            <>
+                <URLUpdater />
+                <Header />
+                <Search />
+                <Articles />
+            </>
         </StateProvider>
     );
 };

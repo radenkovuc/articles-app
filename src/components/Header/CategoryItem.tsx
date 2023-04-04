@@ -2,7 +2,7 @@ import classNames from 'classnames';
 
 import { useStateContext } from '@/state';
 
-import { Category } from '@/components/Header/Categories';
+import { Category } from '@/domain';
 
 const BASE_CLASS = 'articles-app__header__category';
 
@@ -11,15 +11,9 @@ interface Props {
 }
 
 export const CategoryItem = ({ category: { id, name } }: Props): JSX.Element | null => {
-    const { category, setCategory, articles } = useStateContext();
+    const { category, setCategory } = useStateContext();
 
-    if (!articles.some((article) => article.category === id)) {
-        return null;
-    }
-
-    const onClick = () => {
-        setCategory(id);
-    };
+    const onClick = () => setCategory(id);
 
     return (
         <div className={classNames(BASE_CLASS, id === category && `${BASE_CLASS}--active`)} onClick={onClick}>

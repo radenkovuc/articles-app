@@ -1,23 +1,35 @@
-import { Article as DomainArticle } from '@/state/hooks/ArticlesHook';
+import { Article as DomainArticle } from '@/domain/Article';
+
+import { ArticleLink } from '@/components/Article/ArticleLink';
 
 interface Props {
     readonly article: DomainArticle;
     readonly onDeleteArticle: (slug: string) => void;
 }
 
-const IMAGE_BASE_URL = 'https://react-challenge.human.hr/assets/images/post_img/';
 const BASE_CLASS = 'articles-app__article';
 
-export const Article = ({ article, onDeleteArticle }: Props): JSX.Element => (
+export const Article = ({
+    article: { link, title, thumbnailUrl, description, date, slug },
+    onDeleteArticle,
+}: Props): JSX.Element => (
     <div className={BASE_CLASS}>
-        <img className={`${BASE_CLASS}__image`} src={`${IMAGE_BASE_URL}${article.thumbnail}`} alt={article.slug} />
+        <ArticleLink link={link} className={`${BASE_CLASS}__image`}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={thumbnailUrl} alt={slug} />
+        </ArticleLink>
         <div className={`${BASE_CLASS}__content`}>
-            <div className={`${BASE_CLASS}__title`}>{article.title}</div>
-            <div className={`${BASE_CLASS}__date`}>{article.date}</div>
-            <div className={`${BASE_CLASS}__description`} dangerouslySetInnerHTML={{ __html: article.description }} />
+            <ArticleLink link={link}>
+                <div className={`${BASE_CLASS}__title`}>{title}</div>
+            </ArticleLink>
+            <div className={`${BASE_CLASS}__date`}>{date}</div>
+            <div className={`${BASE_CLASS}__description`} dangerouslySetInnerHTML={{ __html: description }} />
+            <div className={`${BASE_CLASS}__article-link`}>
+                <ArticleLink link={link}>Full article</ArticleLink>
+            </div>
         </div>
         <div className={`${BASE_CLASS}__delete`}>
-            <div onClick={() => onDeleteArticle(article.slug)}>Delete</div>
+            <div onClick={() => onDeleteArticle(slug)}>Delete</div>
         </div>
     </div>
 );
