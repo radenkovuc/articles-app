@@ -25,8 +25,14 @@ const filterArticlesBySearch = (articles: Article[], search: string): Article[] 
         return title.includes(searchLower) || description.includes(searchLower);
     });
 
-const filterArticlesByCategory = (articles: Article[], category: string): Article[] =>
-    articles.filter((article) => article.category === category);
+const filterArticlesByCategory = (
+    articles: Article[],
+    category: string | null,
+    excludedCategories: string[],
+): Article[] =>
+    articles.filter(
+        (article) => (!category || article.category === category) && !excludedCategories.includes(article.category),
+    );
 
 const filterAvailableCategories = (articles: Article[]): Category[] =>
     CATEGORIES.filter(({ id }) => articles.some((article) => article.category === id));
@@ -34,19 +40,17 @@ const filterAvailableCategories = (articles: Article[]): Category[] =>
 export const useFilteredData = (): ReturnProps => {
     const [filteredArticles, setFilteredArticles] = useState<Article[]>([]);
     const [filteredCategories, setFilteredCategories] = useState<Category[]>([]);
-    const { articles, search, category } = useStateContext();
+    const { articles, search, category, excludedCategories } = useStateContext();
 
     useEffect(() => {
         let filteredArticles = filterArticlesBySearch(articles, search);
 
         setFilteredCategories(filterAvailableCategories(filteredArticles));
 
-        if (category) {
-            filteredArticles = filterArticlesByCategory(filteredArticles, category);
-        }
+        filteredArticles = filterArticlesByCategory(filteredArticles, category, excludedCategories);
 
         setFilteredArticles(filteredArticles);
-    }, [articles, search, category]);
+    }, [articles, search, category, excludedCategories]);
 
     return { filteredArticles, filteredCategories };
 };

@@ -10,10 +10,38 @@
     }
 
     &__category {
-        @apply px-2 cursor-pointer;
+        @apply p-2 cursor-pointer;
 
         &--active {
-            @apply border border-blue-900 rounded-full;
+            @apply bg-blue-400;
+        }
+
+        &--excluded {
+            @apply bg-red-400;
+        }
+    }
+
+    &__toggle-button {
+        @apply relative p-2 border border-gray-300 cursor-pointer;
+
+        &__content {
+            @apply absolute top-full left-0 flex flex-col w-max cursor-auto border border-gray-300 z-10;
+        }
+    }
+
+    &__toggle-button-category {
+        @apply flex p-2 bg-white;
+
+        &:hover {
+            @apply bg-gray-100;
+        }
+
+        &__text {
+            @apply flex-auto;
+        }
+
+        &__button {
+            @apply ml-2 px-2 border bg-red-400;
         }
     }
 }

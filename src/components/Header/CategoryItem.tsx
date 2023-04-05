@@ -11,12 +11,24 @@ interface Props {
 }
 
 export const CategoryItem = ({ category: { id, name } }: Props): JSX.Element | null => {
-    const { category, setCategory } = useStateContext();
+    const { category, setCategory, excludedCategories, setExcludedCategories } = useStateContext();
 
-    const onClick = () => setCategory(id);
+    const isExcluded = excludedCategories.includes(id);
+
+    const onClick = () => {
+        setCategory(id);
+        setExcludedCategories([]);
+    };
 
     return (
-        <div className={classNames(BASE_CLASS, id === category && `${BASE_CLASS}--active`)} onClick={onClick}>
+        <div
+            className={classNames(
+                BASE_CLASS,
+                id === category && `${BASE_CLASS}--active`,
+                isExcluded && `${BASE_CLASS}--excluded`,
+            )}
+            onClick={onClick}
+        >
             {name}
         </div>
     );
