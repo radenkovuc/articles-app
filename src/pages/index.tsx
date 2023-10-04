@@ -1,9 +1,9 @@
-import { GetServerSideProps } from 'next';
+import {GetServerSideProps} from 'next';
 
-import { StateProvider } from '@/state';
-import { getArticles } from '@/state/hooks/ArticlesHook';
+import {StateProvider} from '@/state';
+import {getArticles, useArticles} from '@/state/hooks/ArticlesHook';
 
-import { Article } from '@/domain';
+import {Article} from '@/domain';
 
 import URLUpdater from '@/components/URLUpdater';
 import Header from '@/components/Header';
@@ -16,21 +16,23 @@ interface Props {
     readonly articles: Article[];
 }
 
-const Home = ({ search, category, articles }: Props): JSX.Element => {
+const Home = ({search, category, articles}: Props): JSX.Element => {
+    const {data} = useArticles(articles)
+
     return (
-        <StateProvider initialCategory={category} initialSearch={search} initialArticles={articles}>
+        <StateProvider initialCategory={category} initialSearch={search} initialArticles={data || []}>
             <>
-                <URLUpdater />
-                <Header />
-                <Search />
-                <Articles />
+                <URLUpdater/>
+                <Header/>
+                <Search/>
+                <Articles/>
             </>
         </StateProvider>
     );
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { query, filter } = context.query;
+    const {query, filter} = context.query;
     const articles = await getArticles();
     return {
         props: {

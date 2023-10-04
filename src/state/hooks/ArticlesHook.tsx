@@ -8,7 +8,7 @@ import { mapArticle } from '@/mappers';
 
 export const getArticles = async (): Promise<Article[]> => {
     const { data } = await axios.get<ResponseArticle[]>('https://react-challenge.human.hr/last-100-news.json');
-    return data.map((article) => mapArticle(article)) || [];
+    return data.map((article) => mapArticle(article));
 };
 
 export const useArticles = (articles?: Article[]): UseQueryResult<Article[]> =>
